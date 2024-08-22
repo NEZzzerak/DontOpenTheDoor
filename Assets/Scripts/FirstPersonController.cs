@@ -12,6 +12,7 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private bool canSprint = true;
 	[SerializeField] private bool canJump = true;
 	[SerializeField] private bool canCrouch = true;
+	[SerializeField] private bool canUseHeadbob = true;
 	
 	[Header("Controls")]
 	[SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
@@ -39,6 +40,23 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private float timeToCrouch = 0.25f;
 	[SerializeField] private Vector3 crouchCenter = new Vector3(0, 0.5f, 0);
 	[SerializeField] private Vector3 standingCenter = new Vector3(0, 0f, 0);
+	
+	[Header("Headbob Parameters")]
+	[SerializeField] private float walkBobSpeed = 14.0f;
+	[SerializeField] private float walkBobAmount = 0.05f;
+	[SerializeField] private float sprintBobSpeed = 18.0f;
+	[SerializeField] private float sprintBobAmount = 0.11f;
+	[SerializeField] private float crouchBobSpeed = 7.0f;
+	[SerializeField] private float crouchBobAmount = 0.025f;
+	
+	[Header("Interact")]
+	[SerializeField] private Vector3 interactionRayPoint = default;
+	[SerializeField] private float interactionDistance = default;
+	[SerializeField] private LayerMask intaractionPlayer = default;
+	private Interact CurrentInteractable;
+	private float defaultYpos = 0;
+	private float timer;
+	
 	private bool isCrouching;
 	private bool duringCrouchAnimation;
 	
@@ -56,6 +74,7 @@ public class FirstPersonController : MonoBehaviour
 		characterController = GetComponent<CharacterController>();
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
+		defaultYpos = playerCamera.transform.localPosition.y;
 	}
 	
 	void Update()
@@ -70,6 +89,9 @@ public class FirstPersonController : MonoBehaviour
 		
 		if(canCrouch)
 			HandleCrouch();
+			
+		if(canUseHeadbob)
+			HandleHeadBob();
 		
 		ApplyFinalMovements();
 		}
@@ -101,6 +123,17 @@ public class FirstPersonController : MonoBehaviour
 	{
 		if(shouldCrouch)
 		   StartCoroutine(CrouchStand());
+	}
+	private void HandleHeadBob()
+	{
+		if(!characterController.isGrounded) return;
+		
+		if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+		{
+			timer += Time.deltaTime * (isCrouching ? crouchBobSpeed : isSprinting ? sprintBobSpeed : walkBobSpeed);
+			playerCamera.transform.localPosition = new Vector3(
+				playerCamera.transform.localPosition.x,defaultYpos + Mathf.Sin(timer) * (isCrouching ? crouchBobAmount : isSprinting ? sprintBobAmount : walkBobAmount),playerCamera.transform.localPosition.z);
+		}
 	}
 	private void ApplyFinalMovements()
 	{
