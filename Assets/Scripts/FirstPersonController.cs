@@ -13,11 +13,14 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private bool canJump = true;
 	[SerializeField] private bool canCrouch = true;
 	[SerializeField] private bool canUseHeadbob = true;
+	[SerializeField] private bool canInteract = true;
 	
 	[Header("Controls")]
 	[SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
 	[SerializeField] private KeyCode jumpKey = KeyCode.Space;
 	[SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
+	[SerializeField] private KeyCode interactKey = KeyCode.Mouse1;
+	
 	
 	[Header("Movement Parameters")]
 	[SerializeField] private float moveSpeed = 3.0f;
@@ -52,7 +55,7 @@ public class FirstPersonController : MonoBehaviour
 	[Header("Interact")]
 	[SerializeField] private Vector3 interactionRayPoint = default;
 	[SerializeField] private float interactionDistance = default;
-	[SerializeField] private LayerMask intaractionPlayer = default;
+	[SerializeField] private LayerMask interactionLayer = default;
 	private Interact CurrentInteractable;
 	private float defaultYpos = 0;
 	private float timer;
@@ -92,6 +95,11 @@ public class FirstPersonController : MonoBehaviour
 			
 		if(canUseHeadbob)
 			HandleHeadBob();
+		
+		if(canInteract)
+			HandleInteractionCheck();
+			HandleInteractionInput();
+			
 		
 		ApplyFinalMovements();
 		}
@@ -135,6 +143,35 @@ public class FirstPersonController : MonoBehaviour
 				playerCamera.transform.localPosition.x,defaultYpos + Mathf.Sin(timer) * (isCrouching ? crouchBobAmount : isSprinting ? sprintBobAmount : walkBobAmount),playerCamera.transform.localPosition.z);
 		}
 	}
+	private void HandleInteractionCheck()
+	{
+		if(Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint),out RaycastHit hit, interactionDistance))
+		{
+			if(hit.collider.gameObject.layer == 9 && (CurrentInteractable == null || hit.collider.GetInstanceID() != CurrentInteractable.gameObject.GetInstanceID()))
+			{
+				hit.collider.TryGetComponent(out CurrentInteractable);
+				
+				if(CurrentInteractable)
+					CurrentInteractable.OnFocus();
+			}
+		}
+		else if(CurrentInteractable)
+		{
+			CurrentInteractable.OnLose();
+			CurrentInteractable = null;
+		}
+		
+		
+	}
+	
+	private void HandleInteractionInput()
+	{
+		if(Input.GetKeyDown(interactKey) && CurrentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint),out RaycastHit hit, interactionDistance, interactionLayer))
+		{
+			CurrentInteractable.OnInteract();
+		}
+	}
+
 	private void ApplyFinalMovements()
 	{
 		if(!characterController.isGrounded)
