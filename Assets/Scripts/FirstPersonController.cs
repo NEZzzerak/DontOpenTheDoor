@@ -72,8 +72,11 @@ public class FirstPersonController : MonoBehaviour
 	
 	private float rotationX = 0.0f;
 	
+	public static FirstPersonController instance;
+	
 	void Awake()
 	{
+		instance = this;
 		playerCamera = GetComponentInChildren<Camera>();
 		characterController = GetComponent<CharacterController>();
 		Cursor.lockState = CursorLockMode.Locked;
