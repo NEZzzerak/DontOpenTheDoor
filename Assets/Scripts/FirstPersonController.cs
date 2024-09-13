@@ -56,6 +56,7 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private Vector3 interactionRayPoint = default;
 	[SerializeField] private float interactionDistance = default;
 	[SerializeField] private LayerMask interactionLayer = default;
+	
 	private Interact CurrentInteractable;
 	private float defaultYpos = 0;
 	private float timer;
@@ -83,9 +84,8 @@ public class FirstPersonController : MonoBehaviour
 	void Update()
 	{
 		if(canMove)
-		{
-		HandleMovementInput();
-		HandleMouseLook();
+			HandleMovementInput();
+			HandleMouseLook();
 		
 		if(canJump)
 			HandleJump();
@@ -102,7 +102,7 @@ public class FirstPersonController : MonoBehaviour
 			
 		
 		ApplyFinalMovements();
-		}
+		
 	}
 	
 	private void HandleMovementInput() 
@@ -153,12 +153,14 @@ public class FirstPersonController : MonoBehaviour
 				
 				if(CurrentInteractable)
 					CurrentInteractable.OnFocus();
+					
 			}
 		}
 		else if(CurrentInteractable)
 		{
 			CurrentInteractable.OnLose();
 			CurrentInteractable = null;
+			
 		}
 		
 		
