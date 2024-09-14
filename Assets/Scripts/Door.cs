@@ -8,12 +8,17 @@ public class Door : Interact
 	private bool isOpen=false;
 	private bool canBeInteractedWith = true;
 	private Animator anim;
+	private Outline line;
+	 
 	void Start()
 	{
 		anim = GetComponent<Animator>();
+		line = GetComponent<Outline>();
+		line.OutlineWidth = 0;
 	}
 	public override void OnFocus()
 	{
+		line.OutlineWidth = 10f;
 	}
 
 	public override void OnInteract()
@@ -33,5 +38,6 @@ public class Door : Interact
 
 	public override void OnLose()
 	{
+		line.OutlineWidth = 0;
 	}
 }
