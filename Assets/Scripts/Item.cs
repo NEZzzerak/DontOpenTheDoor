@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-	public GameObject camera;
+	public new GameObject camera;
 	public float distance = 15f;
-	private Outline outline;
 	GameObject currentItem;
 	bool canPickUp = false;
    
-   
-   	void Start()
-	{
-		outline = GetComponent<Outline>();
-		outline.OutlineWidth = 0;
-	}
+
 
 	
 	void Update()
@@ -41,12 +35,9 @@ public class Item : MonoBehaviour
 				currentItem.transform.localEulerAngles = new Vector3(10f, 0f, 0f);
 				canPickUp = true;
 			}
-			outline.OutlineWidth = 3.5f;
+			
 		}
-		else
-		{
-			 outline.OutlineWidth = 0;
-		}
+		
 
 		
 	}

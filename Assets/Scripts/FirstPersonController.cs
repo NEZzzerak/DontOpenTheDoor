@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private float interactionDistance = default;
 	[SerializeField] private LayerMask interactionLayer = default;
 	
+	public GameObject zoom;
 	private Interact CurrentInteractable;
 	private float defaultYpos = 0;
 	private float timer;
@@ -74,6 +76,8 @@ public class FirstPersonController : MonoBehaviour
 	
 	public static FirstPersonController instance;
 	
+	[SerializeField] private Slider stamina;
+	
 	void Awake()
 	{
 		instance = this;
@@ -82,6 +86,7 @@ public class FirstPersonController : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		defaultYpos = playerCamera.transform.localPosition.y;
+		zoom.SetActive(false);
 	}
 	
 	void Update()
@@ -115,6 +120,25 @@ public class FirstPersonController : MonoBehaviour
 		moveDirection = (transform.TransformDirection(Vector3.forward)*currentInput.x + (transform.TransformDirection(Vector3.right)*currentInput.y
 		));
 		moveDirection.y = moveDirectionY;
+		if(isSprinting == false)
+		{
+			stamina.value += 0.1f;
+			if(stamina.value > 0)
+			{
+				sprintSpeed = 6f;
+			}
+			stamina.gameObject.SetActive(false);
+		}
+		else
+		{
+			stamina.value -= 0.2f;
+			if(stamina.value == 0)
+			{
+				sprintSpeed = 0;
+			}
+			stamina.gameObject.SetActive(true);
+		}
+		
 	}
 	
 	private void HandleMouseLook()
@@ -155,13 +179,16 @@ public class FirstPersonController : MonoBehaviour
 				hit.collider.TryGetComponent(out CurrentInteractable);
 				
 				if(CurrentInteractable)
+					
 					CurrentInteractable.OnFocus();
+				zoom.SetActive(true);
 					
 			}
 		}
 		else if(CurrentInteractable)
 		{
 			CurrentInteractable.OnLose();
+			zoom.SetActive(false);
 			CurrentInteractable = null;
 			
 		}

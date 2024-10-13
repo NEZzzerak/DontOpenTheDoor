@@ -8,7 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.001
-    second: {fileID: 2100000, guid: 2d9e1ae57e0973c4ea4fac133e706cce, type: 2}
+    second: {fileID: 2100000, guid: 5f88f7f149dde89489d3b5d0f7ed138a, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: EGOR
+    second: {fileID: 2800000, guid: 1756078ba8a291d4d8bcc6c0e1069881, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -98,11 +103,11 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
