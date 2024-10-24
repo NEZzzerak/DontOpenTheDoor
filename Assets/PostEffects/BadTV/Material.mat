@@ -32,7 +32,7 @@ Material:
     - _FineDistort: 0.1
     - _Glossiness: 0.5
     - _Metallic: 0
-    - _ThickDistort: 0.7
+    - _ThickDistort: 1.27
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
