@@ -231,28 +231,28 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: 2
+    value: -5
   tint:
     overrideState: 1
-    value: -7
+    value: 44
   colorFilter:
     overrideState: 1
     value: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   hueShift:
     overrideState: 1
-    value: -19
+    value: -12
   saturation:
     overrideState: 1
-    value: 34
+    value: 56
   brightness:
     overrideState: 1
     value: 0
   postExposure:
     overrideState: 1
-    value: -0.62
+    value: 0
   contrast:
     overrideState: 1
-    value: 3
+    value: -8
   mixerRedOutRedIn:
     overrideState: 1
     value: 100
@@ -264,13 +264,13 @@ MonoBehaviour:
     value: 0
   mixerGreenOutRedIn:
     overrideState: 1
-    value: 0
+    value: 19
   mixerGreenOutGreenIn:
     overrideState: 1
     value: 107
   mixerGreenOutBlueIn:
     overrideState: 1
-    value: 0
+    value: 3
   mixerBlueOutRedIn:
     overrideState: 1
     value: 0

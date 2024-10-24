@@ -131,7 +131,7 @@ public class FirstPersonController : MonoBehaviour
 		}
 		else
 		{
-			stamina.value -= 0.2f;
+			stamina.value -= 0.15f;
 			if(stamina.value == 0)
 			{
 				sprintSpeed = 0;
