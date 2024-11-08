@@ -16,54 +16,17 @@ public class DraggableObject : MonoBehaviour
 	private Vector3 moveDirection;
 	private float _rotationSpeed = 150f;
 	private Coroutine _stopCoroutine; 
+	private Outline line;
 
 	private void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
+		line = GetComponent<Outline>();
+		line.OutlineWidth = 0;
 	}
 
 	public void Update()
 	{
-		 //RaycastHit h;
- // Ray ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
- // Physics.Raycast(ray, out h, _draggableObjectDistance);
-  //if (_currentlyDraggedObject != null)
- // {
-
-     // Vector3 targetPosition = _mainCamera.transform.position + _mainCamera.transform.forward * _draggableObjectDistance;
-
- // }
-
-  //RaycastHit hit;
- // bool hitDraggableObject = Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward, out hit, _raycastDistance, LayerMask.GetMask("DraggableObject"));
-
-
- // if (hit.collider?.GetComponent<DraggableObject>() is DraggableObject draggableObject && Input.GetMouseButtonDown(0))
-  //{
-     // if (hitDraggableObject && !_canvastipKEY)
-     // {
-        //  if (hit.collider.GetComponent<DraggableObject>().enabled)
-      //    {
-        //      draggableObject.StartFollowingObject();
-      //    }
-     //     _currentlyDraggedObject = draggableObject;
-     //     _canvastipKEY = false;
-     // }
-  //}
-
-
- // if (Input.GetMouseButtonUp(0))
-  //{
-     // if (_currentlyDraggedObject != null)
-    //  {
-
-        //  _currentlyDraggedObject.StopFollowingObject();
-
-        //  _currentlyDraggedObject = null;
-       //   _canvastipKEY = false;
-          //canvastip.SetActive(false);
-    // }
-  //}
 		if (!_follow)
 			return;
 
@@ -97,6 +60,7 @@ public class DraggableObject : MonoBehaviour
 		_rigidbody.freezeRotation = true;
 		_follow = true;
 		_targetPosition = Camera.main.transform.position + Camera.main.transform.forward * 2;
+		line.OutlineWidth = 10;
 	}
 
 	public void SetTargetPosition()
@@ -112,7 +76,7 @@ public class DraggableObject : MonoBehaviour
 		{
 			_stopCoroutine = StartCoroutine(SmoothStop());
 		}
-
+		line.OutlineWidth = 0;
 		_rigidbody.freezeRotation = false;
 	}
 

@@ -12,9 +12,9 @@ TagManager:
   - PlayerProcess
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Folow
+  - DraggableObject
+  - Player
   - Interactable
   - 
   - 
